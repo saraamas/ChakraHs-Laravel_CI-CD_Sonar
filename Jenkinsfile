@@ -39,13 +39,28 @@ pipeline {
             } 
         }
 
+        // stage('SonarQube Analysis') {
+        //     steps {
+        //         withSonarQubeEnv('SonarQube') {
+        //             sh 'docker run --network=host -e SONAR_HOST_URL="http://127.0.0.1:9000" -v "$PWD:/usr/src" sonarsource/sonar-scanner-cli'
+        //         }
+        //     }
+        // }
+
         stage('SonarQube Analysis') {
-            steps {
-                withSonarQubeEnv('SonarQube') {
-                    sh 'docker run --network=host -e SONAR_HOST_URL="http://127.0.0.1:9000" -v "$PWD:/usr/src" sonarsource/sonar-scanner-cli'
-                }
+            def scannerHome = tool 'sonar-scanner'
+            withSonarQubeEnv('SonarQube') {
+                sh """
+                    ${scannerHome}/bin/sonar-scanner \
+                    -Dsonar.projectKey=GitlabMx \
+                    -Dsonar.host.url=http://localhost:9000 \
+                    -Dsonar.login=sqp_5c7cf314cd19d3f60ed624ea584d547820ccd482 \
+                    -Dsonar.sources=./app \
+                    -Dsonar.exclusions="vendor/*,storage/**,bootstrap/cache/*"
+                """
             }
         }
+
 
         stage('Quality Gate') {
             steps {
