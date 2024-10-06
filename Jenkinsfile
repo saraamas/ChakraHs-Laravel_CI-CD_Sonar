@@ -18,7 +18,7 @@ pipeline {
         stage('Build Laravel') {
             steps {
                 script {
-                    sh 'php artisan serve'
+                    sh 'php artisan serve &'
                 }
             }
         }
