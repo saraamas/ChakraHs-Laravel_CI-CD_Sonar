@@ -32,7 +32,7 @@ pipeline {
         }
 
         stage('compiler les assets Node') {
-            steps {
+            steps { 
                 script {
                     sh 'npm run build'
                 }
