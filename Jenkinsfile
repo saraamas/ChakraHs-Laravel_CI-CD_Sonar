@@ -5,20 +5,36 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/ismailtelhouni/PainCare_Frontend_Angular.git', branch: 'main'
+                git url: 'https://github.com/ChakraHs/ChakraHs-Laravel_CI-CD_Sonar.git', branch: 'main'
             }
         }
 
-        stage('Install Node.js') {
+        stage('Install Deps') {
             steps {
-                sh 'npm install'
+                sh 'composer install'
             }
         }
         
-        stage('Build Angular') {
+        stage('Build Laravel') {
             steps {
                 script {
-                    sh 'npm run build --prod'
+                    sh 'php artisan serve'
+                }
+            }
+        }
+
+        stage('installer les dépendances Node') {
+            steps {
+                script {
+                    sh 'npm install'
+                }
+            }
+        }
+
+        stage('compiler les assets Node') {
+            steps {
+                script {
+                    sh 'npm run build'
                 }
             }
         }
