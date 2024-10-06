@@ -1,0 +1,29 @@
+version: '3.8'
+services:
+  db:
+    image: mysql:8.0
+    container_name: mysql-db
+    environment:
+      MYSQL_DATABASE: test   # Remplace par le nom de ta base de données
+      MYSQL_ROOT_PASSWORD: test                # Mot de passe root de MySQL
+      MYSQL_USER: root                 # Nom d'utilisateur MySQL
+      MYSQL_PASSWORD: test          # Mot de passe pour l'utilisateur  
+      # MYSQL_RANDOM_ROOT_PASSWORD: 
+
+    volumes:
+      - dbdata:/var/lib/mysql
+    ports:
+      - 3306:3306
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    environment:
+      PMA_HOST: db                           # Le nom du service MySQL (db)
+      # PMA_USER: root                         # Utilisation de l'utilisateur root                             # Le nom du service MySQL (db)
+      MYSQL_ROOT_PASSWORD: test                 # Le même mot de passe root que dans MySQL
+    ports:
+      - 8080:80                                 # phpMyAdmin sera accessible via http://localhost:8080
+
+volumes:
+  dbdata:
