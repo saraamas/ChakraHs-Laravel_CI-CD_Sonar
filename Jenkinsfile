@@ -36,7 +36,7 @@ pipeline {
                 script {
                     sh 'npm run build'
                 }
-            }
+            } 
         }
 
         stage('SonarQube Analysis') {
