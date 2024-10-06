@@ -20,7 +20,7 @@ pipeline {
                 script {
                     sh 'php artisan serve &'
                 }
-            }
+            } 
         }
 
         stage('installer les dépendances Node') {
