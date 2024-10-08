@@ -76,7 +76,7 @@ pipeline {
 
         stage('Email Sent') {
             steps{
-                sh 'swaks --to charaftaii96@gmail.com \
+                sh 'swaks --to houcine.chakra10@gmail.com \
                     --from "chakra.hs.business@gmail.com" \
                     --server "smtp.gmail.com" \
                     --port "587" \
