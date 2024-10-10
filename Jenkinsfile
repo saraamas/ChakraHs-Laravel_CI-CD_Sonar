@@ -11,31 +11,35 @@ pipeline {
 
         stage('Install Deps') {
             steps {
-                sh 'composer install'
+                // sh 'composer install'
+                echo 'composer install'
             }
         }
         
         stage('Build Laravel') {
             steps {
-                script {
-                    sh 'php artisan serve &'
-                }
+                // script {
+                //     sh 'php artisan serve &'
+                // }
+                echo 'php artisan serve &'
             } 
         } 
 
         stage('installer les dépendances Node') {
             steps {
-                script {
-                    sh 'npm install'
-                }
+                // script {
+                //     sh 'npm install'
+                // }
+                echo 'npm install'
             }
         }
 
         stage('compiler les assets Node') {
             steps { 
-                script {
-                    sh 'npm run build'
-                }
+                // script {
+                //     sh 'npm run build'
+                // }
+                echo 'npm run build'
             } 
         }
 
