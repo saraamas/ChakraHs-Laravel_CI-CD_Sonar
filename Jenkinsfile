@@ -5,7 +5,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/ChakraHs/ChakraHs-Laravel_CI-CD_Sonar.git', branch: 'main'
+                git url: 'https://github.com/saraamas/ChakraHs-Laravel_CI-CD_Sonar.git', branch: 'main'
             }
         }
 
@@ -109,7 +109,7 @@ pipeline {
                              <p>Vérifiez les détails de la build ici : <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
                              <p>Cordialement,</p>
                              <p>Votre serveur Jenkins</p>""",
-                    to: 'houcine.chakra10@gmail.com', // Remplacez par les adresses souhaitées
+                    to: 'saramasmoudi20010@gmail.com', // Remplacez par les adresses souhaitées
                     from:"chakra.hs.business@gmail.com",
                     replyTo:"chakra.hs.business@gmail.com",
                     mimeType: 'text/html'
@@ -127,7 +127,7 @@ pipeline {
                              <p>Vérifiez les détails de la build ici : <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
                              <p>Cordialement,</p>
                              <p>Votre serveur Jenkins</p>""",
-                    to: 'houcine.chakra10@gmail.com', // Remplacez par les adresses souhaitées
+                    to: 'saramasmoudi2001@gmail.com', // Remplacez par les adresses souhaitées
                     from:"chakra.hs.business@gmail.com",
                     replyTo:"chakra.hs.business@gmail.com",
                     mimeType: 'text/html'
