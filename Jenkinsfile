@@ -10,8 +10,8 @@ pipeline {
 
         stage('Install Deps') {
             steps {
-                // Run Composer install inside WSL
-                sh 'wsl composer install'
+                // Running composer install natively on Windows
+                bat 'composer install'
                 echo 'composer install'
             }
         }
@@ -19,8 +19,8 @@ pipeline {
         stage('Build Laravel') {
             steps {
                 script {
-                    // Run the command to serve Laravel in the background using WSL
-                    sh 'wsl php artisan serve &'
+                    // Running php artisan serve natively on Windows
+                    bat 'php artisan serve &'
                 }
                 echo 'php artisan serve &'
             } 
@@ -28,16 +28,16 @@ pipeline {
 
         stage('installer les dépendances Node') {
             steps {
-                // Install Node dependencies inside WSL (uncomment to use)
-                // sh 'wsl npm install'
+                // Run npm install on Windows
+                bat 'npm install'
                 echo 'npm install'
             }
         }
 
         stage('compiler les assets Node') {
             steps { 
-                // Compile Node assets inside WSL (uncomment to use)
-                // sh 'wsl npm run build'
+                // Run npm run build on Windows
+                bat 'npm run build'
                 echo 'npm run build'
             } 
         }
@@ -47,12 +47,13 @@ pipeline {
                 script {
                     def scannerHome = tool 'sonar-scanner'
                     withSonarQubeEnv('SonarQube') {
-                        sh """
-                            wsl ${scannerHome}/bin/sonar-scanner \
-                            -Dsonar.projectKey=-Laravel_CI-CD_Sonar \
-                            -Dsonar.host.url=http://localhost:9000 \
-                            -Dsonar.login=sqb_d09f59e5a37a961a0cdf2ae5c361cb4cd6aa116b \
-                            -Dsonar.sources=./app \
+                        // Running SonarQube scanner natively on Windows
+                        bat """
+                            ${scannerHome}/bin/sonar-scanner ^
+                            -Dsonar.projectKey=-Laravel_CI-CD_Sonar ^
+                            -Dsonar.host.url=http://localhost:9000 ^
+                            -Dsonar.login=sqb_d09f59e5a37a961a0cdf2ae5c361cb4cd6aa116b ^
+                            -Dsonar.sources=./app ^
                             -Dsonar.exclusions="vendor/*,storage/**,bootstrap/cache/*"
                         """
                     }
@@ -67,7 +68,6 @@ pipeline {
                 }
             }
         }
-
     }
 
     post {
@@ -85,7 +85,7 @@ pipeline {
                              <p>Vérifiez les détails de la build ici : <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
                              <p>Cordialement,</p>
                              <p>Votre serveur Jenkins</p>""",
-                    to: 'saramasmoudi20010@gmail.com', // Remplacez par les adresses souhaitées
+                    to: 'saramasmoudi20010@gmail.com', // Replace with desired email addresses
                     from:"chakra.hs.business@gmail.com",
                     replyTo:"chakra.hs.business@gmail.com",
                     mimeType: 'text/html'
@@ -103,7 +103,7 @@ pipeline {
                              <p>Vérifiez les détails de la build ici : <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
                              <p>Cordialement,</p>
                              <p>Votre serveur Jenkins</p>""",
-                    to: 'saramasmoudi2001@gmail.com', // Remplacez par les adresses souhaitées
+                    to: 'saramasmoudi2001@gmail.com', // Replace with desired email addresses
                     from:"chakra.hs.business@gmail.com",
                     replyTo:"chakra.hs.business@gmail.com",
                     mimeType: 'text/html'
