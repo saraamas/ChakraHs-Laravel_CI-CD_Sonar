@@ -11,16 +11,16 @@ pipeline {
 
         stage('Install Deps') {
             steps {
-                // sh 'composer install'
+                sh 'composer install'
                 echo 'composer install'
             }
         }
         
         stage('Build Laravel') {
             steps {
-                // script {
-                //     sh 'php artisan serve &'
-                // }
+                 script {
+                    sh 'php artisan serve &'
+                }
                 echo 'php artisan serve &'
             } 
         } 
@@ -58,9 +58,9 @@ pipeline {
                     withSonarQubeEnv('SonarQube') {
                         sh """
                             ${scannerHome}/bin/sonar-scanner \
-                            -Dsonar.projectKey=GitlabMx \
+                            -Dsonar.projectKey=-Laravel_CI-CD_Sonar \
                             -Dsonar.host.url=http://localhost:9000 \
-                            -Dsonar.login=sqp_5c7cf314cd19d3f60ed624ea584d547820ccd482 \
+                            -Dsonar.login=sqb_d09f59e5a37a961a0cdf2ae5c361cb4cd6aa116b \
                             -Dsonar.sources=./app \
                             -Dsonar.exclusions="vendor/*,storage/**,bootstrap/cache/*"
                         """
