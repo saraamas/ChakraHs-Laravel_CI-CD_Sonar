@@ -1,7 +1,6 @@
 pipeline {
     agent any
 
-
     stages {
         stage('Checkout') {
             steps {
@@ -11,15 +10,17 @@ pipeline {
 
         stage('Install Deps') {
             steps {
-                sh 'composer install'
+                // Run Composer install inside WSL
+                sh 'wsl composer install'
                 echo 'composer install'
             }
         }
         
         stage('Build Laravel') {
             steps {
-                 script {
-                    sh 'php artisan serve &'
+                script {
+                    // Run the command to serve Laravel in the background using WSL
+                    sh 'wsl php artisan serve &'
                 }
                 echo 'php artisan serve &'
             } 
@@ -27,29 +28,19 @@ pipeline {
 
         stage('installer les dépendances Node') {
             steps {
-                // script {
-                //     sh 'npm install'
-                // }
+                // Install Node dependencies inside WSL (uncomment to use)
+                // sh 'wsl npm install'
                 echo 'npm install'
             }
         }
 
         stage('compiler les assets Node') {
             steps { 
-                // script {
-                //     sh 'npm run build'
-                // }
+                // Compile Node assets inside WSL (uncomment to use)
+                // sh 'wsl npm run build'
                 echo 'npm run build'
             } 
         }
-
-        // stage('SonarQube Analysis') {
-        //     steps {
-        //         withSonarQubeEnv('SonarQube') {
-        //             sh 'docker run --network=host -e SONAR_HOST_URL="http://127.0.0.1:9000" -v "$PWD:/usr/src" sonarsource/sonar-scanner-cli'
-        //         }
-        //     }
-        // }
 
         stage('SonarQube Analysis') {
             steps {
@@ -57,7 +48,7 @@ pipeline {
                     def scannerHome = tool 'sonar-scanner'
                     withSonarQubeEnv('SonarQube') {
                         sh """
-                            ${scannerHome}/bin/sonar-scanner \
+                            wsl ${scannerHome}/bin/sonar-scanner \
                             -Dsonar.projectKey=-Laravel_CI-CD_Sonar \
                             -Dsonar.host.url=http://localhost:9000 \
                             -Dsonar.login=sqb_d09f59e5a37a961a0cdf2ae5c361cb4cd6aa116b \
@@ -69,7 +60,6 @@ pipeline {
             }
         }
 
-
         stage('Quality Gate') {
             steps {
                 timeout(time: 5, unit: 'MINUTES') {
@@ -78,20 +68,6 @@ pipeline {
             }
         }
 
-        // stage('Email Sent') {
-        //     steps{
-        //         sh 'swaks --to houcine.chakra10@gmail.com \
-        //             --from "chakra.hs.business@gmail.com" \
-        //             --server "smtp.gmail.com" \
-        //             --port "587" \
-        //             --auth PLAIN \
-        //             --auth-user "chakra.hs.business@gmail.com" \
-        //             --auth-password "pnuw lgzu ofkv oyoq" \
-        //             --helo "localhost" \
-        //             --tls \
-        //             --data "Subject: Sonar Subject Test\n\nSalam charaf from CLI"'
-        //     }
-        // }
     }
 
     post {
